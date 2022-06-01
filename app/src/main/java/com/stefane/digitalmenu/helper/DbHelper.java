@@ -21,7 +21,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         try{
             String sql;
-            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ITENS + " (id integer PRIMARY KEY AUTOINCREMENT, image String, name varchar(45) NOT NULL, price float NOT NULL); ";
+            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ITENS + " (id integer PRIMARY KEY AUTOINCREMENT, image integer, name varchar(45) NOT NULL, price float NOT NULL); ";
             db.execSQL(sql);
             sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ORDERS + " (id integer PRIMARY KEY AUTOINCREMENT); ";
             db.execSQL(sql);
