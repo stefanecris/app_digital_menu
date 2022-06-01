@@ -1,8 +1,10 @@
-package com.stefane.digitalmenu;
+package com.stefane.digitalmenu.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.stefane.digitalmenu.R;
 
 public class MainActivity extends AppCompatActivity {
 
