@@ -1,6 +1,8 @@
 package com.stefane.digitalmenu.model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id, image;
     private String name;
     private float price;
