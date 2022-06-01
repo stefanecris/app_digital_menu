@@ -16,34 +16,34 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
-    private List<Item> itemList;
+    private List<Item> itemMenu;
 
-    public Adapter(List<Item> itemList) {
-        this.itemList = itemList;
+    public Adapter(List<Item> itemMenu) {
+        this.itemMenu = itemMenu;
     }
 
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list, parent, false);
-        return new MyViewHolder(item);
+        View itemList = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list, parent, false);
+        return new MyViewHolder(itemList);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Item item = itemList.get(position);
+        Item item = itemMenu.get(position);
 
         holder.viewImage.setImageResource(item.getImage());
         holder.viewName.setText(item.getName());
-        holder.viewId.setText(item.getId());
+        holder.viewId.setText(item.getId() + "");
         holder.viewPrice.setText(item.getPrice() + "");
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.itemMenu.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
