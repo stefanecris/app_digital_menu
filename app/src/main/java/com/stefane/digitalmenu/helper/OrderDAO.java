@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.stefane.digitalmenu.model.Order;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class OrderDAO implements IOrderDAO {
 
     private SQLiteDatabase write, read;
 
-    public OrderDAO(Context context){
+    public OrderDAO(Context context) {
         DbHelper db = new DbHelper(context);
         write = db.getWritableDatabase();
         read = db.getReadableDatabase();
@@ -26,9 +28,10 @@ public class OrderDAO implements IOrderDAO {
             cv.put("id", order.getId());
 
             write.insert(DbHelper.NAME_TABLE_ORDERS, null, cv);
+
             Log.i("INFO DB", "Successful Saving!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when saving!" + e.getMessage());
+            Log.i("INFO DB", "Error when saving. " + e.getMessage());
             return false;
         }
         return true;
@@ -46,7 +49,7 @@ public class OrderDAO implements IOrderDAO {
 
             Log.i("INFO DB", "Successful upgrade!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when updating!" + e.getMessage());
+            Log.i("INFO DB", "Error when updating. " + e.getMessage());
             return false;
         }
         return true;
@@ -61,9 +64,8 @@ public class OrderDAO implements IOrderDAO {
             write.delete(DbHelper.NAME_TABLE_ORDERS, "id = ?", args);
 
             Log.i("INFO DB", "Success when deleting!");
-
         }catch(Exception e){
-            Log.i("INFO DB", "Error when deleting!" + e.getMessage());
+            Log.i("INFO DB", "Error when deleting. " + e.getMessage());
             return false;
         }
         return true;
@@ -90,7 +92,7 @@ public class OrderDAO implements IOrderDAO {
         return orderList;
     }
 
-    public int getIdLastOrder(){
+    public int getIdLastOrder() {
 
         Cursor cursor = read.rawQuery("SELECT MAX(id) AS last_id FROM " + DbHelper.NAME_TABLE_ORDERS, null);
 
@@ -102,9 +104,7 @@ public class OrderDAO implements IOrderDAO {
             return 0;
         }else{
             while(cursor.moveToNext()){
-
                 order.setId(cursor.getInt(indexColumnId));
-
             }
         }
 
