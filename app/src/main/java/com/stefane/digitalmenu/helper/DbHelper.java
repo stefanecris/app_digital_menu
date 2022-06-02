@@ -14,7 +14,7 @@ import com.stefane.digitalmenu.model.Item;
 public class DbHelper extends SQLiteOpenHelper {
 
     public static int VERSION = 1;
-    public static String NAME_DB = "db_menu", NAME_TABLE_ITENS = "itens", NAME_TABLE_ORDERS = "orders", NAME_TABLE_ORDERS_ITENS = "orders_itens";
+    public static String NAME_DB = "db_menu", NAME_TABLE_ITEMS = "items", NAME_TABLE_ORDERS = "orders", NAME_TABLE_ORDERS_ITEMS = "orders_items";
 
     public DbHelper(@Nullable Context context) {
         super(context, NAME_DB, null, VERSION);
@@ -25,19 +25,19 @@ public class DbHelper extends SQLiteOpenHelper {
 
         try{
             String sql;
-            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ITENS + " (id integer PRIMARY KEY AUTOINCREMENT, image integer, name varchar(45) NOT NULL, price float NOT NULL); ";
+            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ITEMS + " (id integer PRIMARY KEY AUTOINCREMENT, image integer, name varchar(45) NOT NULL, price float NOT NULL);";
             db.execSQL(sql);
-            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ORDERS + " (id integer PRIMARY KEY AUTOINCREMENT); ";
+            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ORDERS + " (id integer PRIMARY KEY AUTOINCREMENT);";
             db.execSQL(sql);
-            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ORDERS_ITENS + " (quantity float, id_order integer, id_item integer, FOREIGN KEY (id_order) REFERENCES " + NAME_TABLE_ORDERS +
-                    "(id), FOREIGN KEY (id_item) REFERENCES " + NAME_TABLE_ITENS + "(id)); ";
+            sql = "CREATE TABLE IF NOT EXISTS " + NAME_TABLE_ORDERS_ITEMS + " (quantity float, id_order integer, id_item integer, FOREIGN KEY (id_order) REFERENCES " + NAME_TABLE_ORDERS +
+                    "(id), FOREIGN KEY (id_item) REFERENCES " + NAME_TABLE_ITEMS + "(id));";
             db.execSQL(sql);
             Log.i("INFO DB", "Success in creating the tables!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when creating the tables!" + e.getMessage());
+            Log.i("INFO DB", "Error when creating the tables. " + e.getMessage());
         }
 
-        createMenu(db);
+        createItemsMenu(db);
 
     }
 
@@ -46,53 +46,46 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void createMenu(SQLiteDatabase db){
-        Item item = new Item();
+    public void createItemsMenu(SQLiteDatabase db){
+        Item item = new Item(R.drawable.pastel_pizza, "Pastel de Pizza", (float) 7.50);
+        saveItem(db, item);
 
-        item.setImage(R.drawable.pastel_pizza);
-        item.setName("Pastel de Pizza");
-        item.setPrice((float) 7.50);
+        item = new Item(R.drawable.pastel_carne, "Pastel de Carne", (float) 6.00);
+        saveItem(db, item);
 
-        save(db, item);
+        item = new Item(R.drawable.pastel_palmito, "Pastel de Palmito", (float) 8.00);
+        saveItem(db, item);
 
-        item.setImage(R.drawable.pastel_pizza);
-        item.setName("Pastel de Carne");
-        item.setPrice((float) 6.00);
+        item = new Item(R.drawable.pastel_calabresa, "Pastel de Calabresa", (float) 7.00);
+        saveItem(db, item);
 
-        save(db, item);
+        item = new Item(R.drawable.pastel_frango, "Pastel de Frango", (float) 6.00);
+        saveItem(db, item);
 
-        item.setImage(R.drawable.pastel_pizza);
-        item.setName("Pastel de Palmito");
-        item.setPrice((float) 8.50);
+        item = new Item(R.drawable.pastel_queijo, "Pastel de Queijo", (float) 6.00);
+        saveItem(db, item);
 
-        save(db, item);
+        item = new Item(R.drawable.pastel_carne_queijo, "Pastel de Carne com Queijo", (float) 6.50);
+        saveItem(db, item);
 
-        item.setImage(R.drawable.pastel_pizza);
-        item.setName("Pastel de Calabresa");
-        item.setPrice((float) 7.50);
-
-        save(db, item);
-
-        item.setImage(R.drawable.pastel_pizza);
-        item.setName("Pastel de Frango");
-        item.setPrice((float) 6.00);
-
-        save(db, item);
+        item = new Item(R.drawable.pastel_frango_catupiry, "Pastel de Frango com Catupiry", (float) 7.50);
+        saveItem(db, item);
 
     }
 
-    public void save(SQLiteDatabase db, Item item){
+    public void saveItem(SQLiteDatabase db, Item item){
+
         try{
             ContentValues cv = new ContentValues();
             cv.put("image", item.getImage());
             cv.put("name", item.getName());
             cv.put("price", item.getPrice());
-            db.insert(NAME_TABLE_ITENS, null, cv);
+            db.insert(NAME_TABLE_ITEMS, null, cv);
             Log.i("INFO DB", "Successful Saving!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when saving!" + e.getMessage());
-
+            Log.i("INFO DB", "Error when saving. " + e.getMessage());
         }
+
     }
 
 }
