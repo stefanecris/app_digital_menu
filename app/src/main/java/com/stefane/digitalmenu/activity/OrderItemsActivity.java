@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stefane.digitalmenu.R;
 import com.stefane.digitalmenu.adapter.Adapter;
@@ -27,6 +28,7 @@ public class OrderItemsActivity extends AppCompatActivity {
     private List<OrderItem> order = new ArrayList<>();
     private List<Item> itemsOrder = new ArrayList<>();
     private int idCurrentOrder;
+    private float totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class OrderItemsActivity extends AppCompatActivity {
         buttonNo = findViewById(R.id.buttonNo);
 
         idCurrentOrder = (int) getIntent().getSerializableExtra("idCurrentOrder");
+
+        getTotal();
 
     }
 
@@ -59,6 +63,15 @@ public class OrderItemsActivity extends AppCompatActivity {
         recyclerOrderItems.setHasFixedSize(true);
         recyclerOrderItems.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerOrderItems.setAdapter(adapter);
+
+    }
+
+    public void getTotal(){
+        Total total = new Total(getApplicationContext(), idCurrentOrder);
+
+        totalPrice = total.calcTotal();
+
+        Toast.makeText(getApplicationContext(), "Total: " + totalPrice, Toast.LENGTH_LONG).show();
     }
 
 }
