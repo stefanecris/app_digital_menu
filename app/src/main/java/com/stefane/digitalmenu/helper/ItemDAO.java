@@ -15,7 +15,7 @@ public class ItemDAO implements IItemDAO {
 
     private SQLiteDatabase write, read;
 
-    public ItemDAO(Context context){
+    public ItemDAO(Context context) {
         DbHelper db = new DbHelper(context);
         write = db.getWritableDatabase();
         read = db.getReadableDatabase();
@@ -29,10 +29,11 @@ public class ItemDAO implements IItemDAO {
             cv.put("name", item.getName());
             cv.put("price", item.getPrice());
 
-            write.insert(DbHelper.NAME_TABLE_ITENS, null, cv);
+            write.insert(DbHelper.NAME_TABLE_ITEMS, null, cv);
+
             Log.i("INFO DB", "Successful Saving!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when saving!" + e.getMessage());
+            Log.i("INFO DB", "Error when saving. " + e.getMessage());
             return false;
         }
         return true;
@@ -48,11 +49,11 @@ public class ItemDAO implements IItemDAO {
 
             String[] args = {item.getId() + ""};
 
-            write.update(DbHelper.NAME_TABLE_ITENS, cv, "id = ?", args);
+            write.update(DbHelper.NAME_TABLE_ITEMS, cv, "id = ?", args);
 
             Log.i("INFO DB", "Successful upgrade!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when updating!" + e.getMessage());
+            Log.i("INFO DB", "Error when updating. " + e.getMessage());
             return false;
         }
         return true;
@@ -64,12 +65,11 @@ public class ItemDAO implements IItemDAO {
 
             String[] args = {item.getId() + ""};
 
-            write.delete(DbHelper.NAME_TABLE_ITENS, "id = ?", args);
+            write.delete(DbHelper.NAME_TABLE_ITEMS, "id = ?", args);
 
             Log.i("INFO DB", "Success when deleting!");
-
         }catch(Exception e){
-            Log.i("INFO DB", "Error when deleting!" + e.getMessage());
+            Log.i("INFO DB", "Error when deleting. " + e.getMessage());
             return false;
         }
         return true;
@@ -78,9 +78,9 @@ public class ItemDAO implements IItemDAO {
     @Override
     public List<Item> list() {
 
-        List<Item> itens = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
 
-        Cursor cursor = read.rawQuery("SELECT * FROM " + DbHelper.NAME_TABLE_ITENS, null);
+        Cursor cursor = read.rawQuery("SELECT * FROM " + DbHelper.NAME_TABLE_ITEMS, null);
 
         int indexColumnId = cursor.getColumnIndex("id");
         int indexColumnImage = cursor.getColumnIndex("image");
@@ -96,11 +96,11 @@ public class ItemDAO implements IItemDAO {
             item.setName(cursor.getString(indexColumnName));
             item.setPrice(cursor.getFloat(indexColumnPrice));
 
-            itens.add(item);
+            items.add(item);
 
         }
 
-        return itens;
+        return items;
 
     }
 }
