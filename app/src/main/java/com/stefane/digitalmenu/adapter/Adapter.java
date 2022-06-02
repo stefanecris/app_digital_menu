@@ -36,8 +36,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
         holder.viewImage.setImageResource(item.getImage());
         holder.viewName.setText(item.getName());
-        holder.viewId.setText(item.getId() + "");
-        holder.viewPrice.setText(item.getPrice() + "");
+        holder.viewId.setText("Id: " + item.getId());
+        holder.viewPrice.setText("R$ " + String.format("%.2f", item.getPrice()));
 
     }
 
