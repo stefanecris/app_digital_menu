@@ -2,7 +2,7 @@ package com.stefane.digitalmenu.model;
 
 public class OrderItem {
     private int id_order, id_item, quantity;
-
+    
     public OrderItem() {
     }
 
