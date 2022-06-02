@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IOrderItemDAO {
 
-    public boolean save(OrderItem orderItem);
-    public boolean update(OrderItem orderItem);
-    public boolean delete(OrderItem orderItem);
-    public List<Item> list(int idCurrentOrder);
+    boolean save(OrderItem orderItem);
+    boolean update(OrderItem orderItem);
+    boolean delete(OrderItem orderItem);
+    List<Item> list(int idCurrentOrder);
 
 }
