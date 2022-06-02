@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +44,22 @@ public class OrderItemsActivity extends AppCompatActivity {
         idCurrentOrder = (int) getIntent().getSerializableExtra("idCurrentOrder");
 
         getTotal();
+
+        textConfirmeMessage.setText("Confirma o pedido no valor de R$ " + totalPrice + "?");
+
+        buttonYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Pedido enviado para a cozinha com sucesso!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Pedido cancelado", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
