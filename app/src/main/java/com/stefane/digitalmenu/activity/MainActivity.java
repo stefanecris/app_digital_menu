@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.stefane.digitalmenu.R;
 import com.stefane.digitalmenu.adapter.Adapter;
+import com.stefane.digitalmenu.helper.ItemDAO;
 import com.stefane.digitalmenu.helper.RecyclerItemClickListener;
 import com.stefane.digitalmenu.model.Item;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        
+
                     }
 
                     @Override
@@ -52,8 +53,20 @@ public class MainActivity extends AppCompatActivity {
                 }
         ));
 
+    }
 
-        this.createItensMenu();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadMenu();
+    }
+
+    public void loadMenu(){
+
+        // this.createItensMenu();
+
+        ItemDAO itemDAO = new ItemDAO(getApplicationContext());
+        itensMenu = itemDAO.list();
 
         Adapter adapter = new Adapter(itensMenu);
 
@@ -62,20 +75,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerMenu.setHasFixedSize(true);
         recyclerMenu.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerMenu.setAdapter(adapter);
-
-    }
-
-    public void createItensMenu(){
-
-        Item item = new Item(1, R.drawable.pastel_pizza, "Pastel de Pizza", (float) 7.50);
-        itensMenu.add(item);
-
-        item = new Item(2, R.drawable.pastel_pizza, "Pastel de Carne", (float) 6.00);
-        itensMenu.add(item);
-
-        item = new Item(3, R.drawable.pastel_pizza, "Pastel de Palmito", (float) 8.50);
-        itensMenu.add(item);
-
     }
 
 }
