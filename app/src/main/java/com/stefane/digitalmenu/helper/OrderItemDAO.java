@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.stefane.digitalmenu.model.Item;
 import com.stefane.digitalmenu.model.OrderItem;
 
 import java.util.ArrayList;
@@ -76,27 +77,30 @@ public class OrderItemDAO implements IOrderItemDAO {
     }
 
     @Override
-    public List<OrderItem> list() {
-        List<OrderItem> orderItemList = new ArrayList<>();
+    public List<Item> list(int idCurrentOrder) {
+        List<Item> orderItemList = new ArrayList<>();
 
-        Cursor cursor = read.rawQuery("SELECT * FROM " + DbHelper.NAME_TABLE_ORDERS_ITENS, null);
+        Cursor cursor = read.rawQuery("SELECT id, image, name, price FROM " + DbHelper.NAME_TABLE_ITENS + " JOIN " + DbHelper.NAME_TABLE_ORDERS_ITENS + " ON id = id_item WHERE id_order = " + idCurrentOrder, null);
 
-        int indexColumnQuantity = cursor.getColumnIndex("quantity");
-        int indexColumnIdOrder = cursor.getColumnIndex("id_order");
-        int indexColumnIdItem = cursor.getColumnIndex("id_item");
+        int indexColumnId = cursor.getColumnIndex("id");
+        int indexColumnImage = cursor.getColumnIndex("image");
+        int indexColumnName = cursor.getColumnIndex("name");
+        int indexColumnPrice = cursor.getColumnIndex("price");
 
         while(cursor.moveToNext()){
 
-            OrderItem orderItem = new OrderItem();
+            Item item = new Item();
 
-            orderItem.setQuantity(cursor.getInt(indexColumnQuantity));
-            orderItem.setId_order(cursor.getInt(indexColumnIdOrder));
-            orderItem.setId_item(cursor.getInt(indexColumnIdItem));
+            item.setId(cursor.getInt(indexColumnId));
+            item.setImage(cursor.getInt(indexColumnImage));
+            item.setName(cursor.getString(indexColumnName));
+            item.setPrice(cursor.getFloat(indexColumnPrice));
 
-            orderItemList.add(orderItem);
+            orderItemList.add(item);
 
         }
 
         return orderItemList;
     }
+
 }
