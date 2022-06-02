@@ -1,4 +1,4 @@
-package com.stefane.digitalmenu.activity;
+package com.stefane.digitalmenu.model;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -20,21 +20,18 @@ public class Total {
 
     public float calcTotal(){
 
-        Cursor cursor = read.rawQuery("SELECT SUM(quantity * price) AS total FROM " + DbHelper.NAME_TABLE_ITENS + " JOIN " + DbHelper.NAME_TABLE_ORDERS_ITENS +
-                " ON id = id_item WHERE id_order = " + idCurrentOrder , null);
+        Cursor cursor = read.rawQuery("SELECT SUM(quantity * price) AS total FROM " + DbHelper.NAME_TABLE_ITEMS + " JOIN " + DbHelper.NAME_TABLE_ORDERS_ITEMS +
+                " ON id = id_item WHERE id_order = " + idCurrentOrder, null);
 
         int indexColumnTotal = cursor.getColumnIndex("total");
 
         float total = 0;
 
         while(cursor.moveToNext()){
-
             total = cursor.getFloat(indexColumnTotal);
-
         }
 
         return total;
-
     }
 
 }
