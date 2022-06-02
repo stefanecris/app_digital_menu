@@ -45,15 +45,21 @@
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
         android:background="@color/background_quantity_field"
+        android:gravity="center_horizontal|center_vertical"
         android:text="0"
-        app:layout_constraintTop_toBottomOf="@+id/textFoodPrice"
-        tools:layout_editor_absoluteX="185dp" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPlus"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonLess"
+        app:layout_constraintTop_toBottomOf="@+id/textFoodPrice" />
 
     <Button
         android:id="@+id/buttonPlus"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:text="+"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textQuantity"
         app:layout_constraintTop_toTopOf="@+id/textQuantity" />
 
@@ -63,5 +69,18 @@
         android:layout_height="40dp"
         android:text="-"
         app:layout_constraintEnd_toStartOf="@+id/textQuantity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textQuantity" />
+
+    <Button
+        android:id="@+id/buttonOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="@android:string/ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
