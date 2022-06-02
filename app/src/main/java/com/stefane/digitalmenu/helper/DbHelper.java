@@ -1,11 +1,15 @@
 package com.stefane.digitalmenu.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.stefane.digitalmenu.R;
+import com.stefane.digitalmenu.model.Item;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -33,10 +37,62 @@ public class DbHelper extends SQLiteOpenHelper {
             Log.i("INFO DB", "Error when creating the tables!" + e.getMessage());
         }
 
+        createMenu(db);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
     }
+
+    public void createMenu(SQLiteDatabase db){
+        Item item = new Item();
+
+        item.setImage(R.drawable.pastel_pizza);
+        item.setName("Pastel de Pizza");
+        item.setPrice((float) 7.50);
+
+        save(db, item);
+
+        item.setImage(R.drawable.pastel_pizza);
+        item.setName("Pastel de Carne");
+        item.setPrice((float) 6.00);
+
+        save(db, item);
+
+        item.setImage(R.drawable.pastel_pizza);
+        item.setName("Pastel de Palmito");
+        item.setPrice((float) 8.50);
+
+        save(db, item);
+
+        item.setImage(R.drawable.pastel_pizza);
+        item.setName("Pastel de Calabresa");
+        item.setPrice((float) 7.50);
+
+        save(db, item);
+
+        item.setImage(R.drawable.pastel_pizza);
+        item.setName("Pastel de Frango");
+        item.setPrice((float) 6.00);
+
+        save(db, item);
+
+    }
+
+    public void save(SQLiteDatabase db, Item item){
+        try{
+            ContentValues cv = new ContentValues();
+            cv.put("image", item.getImage());
+            cv.put("name", item.getName());
+            cv.put("price", item.getPrice());
+            db.insert(NAME_TABLE_ITENS, null, cv);
+            Log.i("INFO DB", "Successful Saving!");
+        }catch(Exception e){
+            Log.i("INFO DB", "Error when saving!" + e.getMessage());
+
+        }
+    }
+
 }
