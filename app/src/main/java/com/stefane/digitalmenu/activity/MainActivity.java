@@ -23,8 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMenu;
-    private List<Item> itensMenu = new ArrayList<>();
-    private Item selectedItem;
+    private List<Item> itemsMenu = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        openQuantityItemsActivity(itensMenu.get(position));
+                        openQuantityItemsActivity(itemsMenu.get(position));
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-
                     }
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                     }
                 }
         ));
@@ -64,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadMenu(){
         ItemDAO itemDAO = new ItemDAO(getApplicationContext());
-        itensMenu = itemDAO.list();
+        itemsMenu = itemDAO.list();
 
-        Adapter adapter = new Adapter(itensMenu);
+        Adapter adapter = new Adapter(itemsMenu);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerMenu.setLayoutManager(layoutManager);
