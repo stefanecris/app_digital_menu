@@ -30,10 +30,11 @@ public class OrderItemDAO implements IOrderItemDAO {
             cv.put("id_order", orderItem.getId_order());
             cv.put("id_item", orderItem.getId_item());
 
-            write.insert(DbHelper.NAME_TABLE_ORDERS_ITENS, null, cv);
+            write.insert(DbHelper.NAME_TABLE_ORDERS_ITEMS, null, cv);
+
             Log.i("INFO DB", "Successful Saving!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when saving!" + e.getMessage());
+            Log.i("INFO DB", "Error when saving. " + e.getMessage());
             return false;
         }
         return true;
@@ -49,11 +50,11 @@ public class OrderItemDAO implements IOrderItemDAO {
 
             String[] args = {orderItem.getId_order() + "", orderItem.getId_item() + ""};
 
-            write.update(DbHelper.NAME_TABLE_ORDERS_ITENS, cv, "id_order = ?, id_item = ?", args);
+            write.update(DbHelper.NAME_TABLE_ORDERS_ITEMS, cv, "id_order = ?, id_item = ?", args);
 
             Log.i("INFO DB", "Successful upgrade!");
         }catch(Exception e){
-            Log.i("INFO DB", "Error when updating!" + e.getMessage());
+            Log.i("INFO DB", "Error when updating. " + e.getMessage());
             return false;
         }
         return true;
@@ -65,12 +66,11 @@ public class OrderItemDAO implements IOrderItemDAO {
 
             String[] args = {orderItem.getId_order() + "", orderItem.getId_item() + ""};
 
-            write.delete(DbHelper.NAME_TABLE_ORDERS_ITENS, "id_order = ?, id_item = ?", args);
+            write.delete(DbHelper.NAME_TABLE_ORDERS_ITEMS, "id_order = ?, id_item = ?", args);
 
             Log.i("INFO DB", "Success when deleting!");
-
         }catch(Exception e){
-            Log.i("INFO DB", "Error when deleting!" + e.getMessage());
+            Log.i("INFO DB", "Error when deleting. " + e.getMessage());
             return false;
         }
         return true;
@@ -80,7 +80,7 @@ public class OrderItemDAO implements IOrderItemDAO {
     public List<Item> list(int idCurrentOrder) {
         List<Item> orderItemList = new ArrayList<>();
 
-        Cursor cursor = read.rawQuery("SELECT id, image, name, price FROM " + DbHelper.NAME_TABLE_ITENS + " JOIN " + DbHelper.NAME_TABLE_ORDERS_ITENS + " ON id = id_item WHERE id_order = " + idCurrentOrder, null);
+        Cursor cursor = read.rawQuery("SELECT id, image, name, price FROM " + DbHelper.NAME_TABLE_ITEMS + " JOIN " + DbHelper.NAME_TABLE_ORDERS_ITEMS + " ON id = id_item WHERE id_order = " + idCurrentOrder, null);
 
         int indexColumnId = cursor.getColumnIndex("id");
         int indexColumnImage = cursor.getColumnIndex("image");
