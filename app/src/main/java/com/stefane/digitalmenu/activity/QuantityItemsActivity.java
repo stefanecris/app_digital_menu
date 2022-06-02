@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stefane.digitalmenu.R;
+import com.stefane.digitalmenu.helper.Order;
+import com.stefane.digitalmenu.helper.OrderDAO;
 import com.stefane.digitalmenu.helper.OrderItemDAO;
 import com.stefane.digitalmenu.model.Item;
 import com.stefane.digitalmenu.model.OrderItem;
@@ -20,15 +23,16 @@ import com.stefane.digitalmenu.model.OrderItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuantityItensActivity extends AppCompatActivity {
+public class QuantityItemsActivity extends AppCompatActivity {
 
     private ImageView imageCoverFood;
     private TextView textFoodName, textFoodPrice, textQuantity;
     private Button buttonPlus, buttonLess, buttonOk;
     private Item item;
+    private Order order;
+    private OrderDAO orderDAO;
     private OrderItem orderItem;
     private int itemQuantity, idOrder;
-    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,6 @@ public class QuantityItensActivity extends AppCompatActivity {
         buttonLess = findViewById(R.id.buttonLess);
         buttonOk = findViewById(R.id.buttonOk);
         itemQuantity = 0;
-        idOrder = 1;
 
         getItem();
 
@@ -71,8 +74,7 @@ public class QuantityItensActivity extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addItemOnTheList();
-
+                saveOrderItemOnTheDb();
                 openAlertDialog();
             }
         });
@@ -88,11 +90,6 @@ public class QuantityItensActivity extends AppCompatActivity {
         textFoodName.setText(item.getName());
         textFoodPrice.setText(item.getPrice() + "");
         textQuantity.setText(itemQuantity + "");
-    }
-
-    public void addItemOnTheList(){
-        orderItem = new OrderItem(idOrder, item.getId(), itemQuantity);
-        orderItems.add(orderItem);
     }
 
     public void openAlertDialog(){
@@ -117,6 +114,7 @@ public class QuantityItensActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveOrderOnTheDb();
+                openOrderItemsActivity();
             }
         });
 
@@ -126,20 +124,31 @@ public class QuantityItensActivity extends AppCompatActivity {
     }
 
     public void saveOrderOnTheDb(){
+        order = new Order(idOrder + 1);
+        orderDAO.save(order);
+    }
+
+    public void saveOrderItemOnTheDb(){
+
+        orderDAO = new OrderDAO(getApplicationContext());
+
+        idOrder = orderDAO.getIdLastOrder();
+
         OrderItemDAO orderItemDAO = new OrderItemDAO(getApplicationContext());
+        orderItem = new OrderItem(idOrder + 1, item.getId(), itemQuantity);
 
-        for(int i = 0; i < orderItems.size(); i++){
-            orderItem.setId_order(orderItems.get(i).getId_order());
-            orderItem.setId_item(orderItems.get(i).getId_item());
-            orderItem.setQuantity(orderItems.get(i).getQuantity());
+        orderItemDAO.save(orderItem);
 
-            orderItemDAO.save(orderItem);
-
-        }
     }
 
     public void openMainActivity(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openOrderItemsActivity(){
+        Intent intent = new Intent(getApplicationContext(), OrderItemsActivity.class);
+        intent.putExtra("idCurrentOrder", idOrder + 1);
         startActivity(intent);
     }
 
