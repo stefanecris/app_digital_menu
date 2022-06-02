@@ -1,4 +1,4 @@
-package com.stefane.digitalmenu.helper;
+package com.stefane.digitalmenu.model;
 
 public class Order {
 
