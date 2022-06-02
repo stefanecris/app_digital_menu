@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface IItemDAO {
 
-    public boolean save(Item item);
-    public boolean update(Item item);
-    public boolean delete(Item item);
-    public List<Item> list();
+    boolean save(Item item);
+    boolean update(Item item);
+    boolean delete(Item item);
+    List<Item> list();
 
 }
