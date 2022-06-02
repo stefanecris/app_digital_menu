@@ -7,17 +7,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stefane.digitalmenu.R;
 import com.stefane.digitalmenu.model.Item;
+import com.stefane.digitalmenu.model.OrderItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuantityItensActivity extends AppCompatActivity {
 
     private ImageView imageCoverFood;
     private TextView textFoodName, textFoodPrice, textQuantity;
-    private Button buttonPlus, buttonLess;
+    private Button buttonPlus, buttonLess, buttonOk;
     private Item item;
-    private int itemQuantity;
+    private OrderItem orderItem;
+    private int itemQuantity, idOrder;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +37,9 @@ public class QuantityItensActivity extends AppCompatActivity {
         textQuantity = findViewById(R.id.textQuantity);
         buttonPlus = findViewById(R.id.buttonPlus);
         buttonLess = findViewById(R.id.buttonLess);
+        buttonOk = findViewById(R.id.buttonOk);
         itemQuantity = 0;
+        idOrder = 1;
 
         getItem();
 
@@ -40,7 +49,7 @@ public class QuantityItensActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 itemQuantity++;
-                textQuantity.setText(itemQuantity);
+                textQuantity.setText(itemQuantity + "");
             }
         });
 
@@ -48,7 +57,19 @@ public class QuantityItensActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 itemQuantity--;
-                textQuantity.setText(itemQuantity);
+                if(itemQuantity < 0){
+                    itemQuantity = 0;
+                }
+                textQuantity.setText(itemQuantity + "");
+            }
+        });
+
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addItemOnTheList();
+
+                Toast.makeText(getApplicationContext(), "quantity: " + orderItems.get(0).getQuantity() + " - id_order: " + orderItems.get(0).getId_order() + " - id_item: " + orderItems.get(0).getId_item(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -62,7 +83,12 @@ public class QuantityItensActivity extends AppCompatActivity {
         imageCoverFood.setImageResource(item.getImage());
         textFoodName.setText(item.getName());
         textFoodPrice.setText(item.getPrice() + "");
-        textQuantity.setText(itemQuantity);
+        textQuantity.setText(itemQuantity + "");
+    }
+
+    public void addItemOnTheList(){
+        orderItem = new OrderItem(idOrder, item.getId(), itemQuantity);
+        orderItems.add(orderItem);
     }
 
 }
