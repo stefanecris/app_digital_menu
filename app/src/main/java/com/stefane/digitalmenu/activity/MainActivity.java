@@ -23,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMenu;
-    private List<Item> itensMenu = new ArrayList<>();
+    private List<Item> itemsMenu = new ArrayList<>();
     private Item selectedItem;
 
     @Override
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        openQuantityItensActivity(itensMenu.get(position));
+                        openQuantityItensActivity(itemsMenu.get(position));
                     }
 
                     @Override
@@ -63,13 +63,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadMenu(){
-
-        // this.createItensMenu();
-
         ItemDAO itemDAO = new ItemDAO(getApplicationContext());
-        itensMenu = itemDAO.list();
+        itemsMenu = itemDAO.list();
 
-        Adapter adapter = new Adapter(itensMenu);
+        Adapter adapter = new Adapter(itemsMenu);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerMenu.setLayoutManager(layoutManager);
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openQuantityItensActivity(Item item){
-        Intent intent = new Intent(getApplicationContext(), QuantityItensActivity.class);
+        Intent intent = new Intent(getApplicationContext(), QuantityItemsActivity.class);
         intent.putExtra("Item", item);
         startActivity(intent);
     }
