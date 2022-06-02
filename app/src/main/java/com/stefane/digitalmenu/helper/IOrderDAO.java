@@ -1,4 +1,12 @@
 package com.stefane.digitalmenu.helper;
 
-public interface IOrder {
+import java.util.List;
+
+public interface IOrderDAO {
+
+    public boolean save(Order order);
+    public boolean update(Order order);
+    public boolean delete(Order order);
+    public List<Order> list();
+
 }
