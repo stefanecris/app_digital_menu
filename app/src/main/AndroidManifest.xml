@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activity.QuantityItensActivity"></activity>
+        <activity android:name=".activity.OrderItemsActivity"></activity>
+        <activity android:name=".activity.QuantityItemsActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
