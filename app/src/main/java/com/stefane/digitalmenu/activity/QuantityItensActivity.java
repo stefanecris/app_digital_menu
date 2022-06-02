@@ -3,6 +3,8 @@ package com.stefane.digitalmenu.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +14,10 @@ import com.stefane.digitalmenu.model.Item;
 public class QuantityItensActivity extends AppCompatActivity {
 
     private ImageView imageCoverFood;
-    private TextView textFoodName, textFoodPrice;
+    private TextView textFoodName, textFoodPrice, textQuantity;
+    private Button buttonPlus, buttonLess;
     private Item item;
+    private int itemQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +27,30 @@ public class QuantityItensActivity extends AppCompatActivity {
         imageCoverFood = findViewById(R.id.imageCoverFood);
         textFoodName = findViewById(R.id.textFoodName);
         textFoodPrice = findViewById(R.id.textFoodPrice);
+        textQuantity = findViewById(R.id.textQuantity);
+        buttonPlus = findViewById(R.id.buttonPlus);
+        buttonLess = findViewById(R.id.buttonLess);
+        itemQuantity = 0;
 
         getItem();
 
         displaysSelectedItem();
+
+        buttonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemQuantity++;
+                textQuantity.setText(itemQuantity);
+            }
+        });
+
+        buttonLess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemQuantity--;
+                textQuantity.setText(itemQuantity);
+            }
+        });
 
     }
 
@@ -38,6 +62,7 @@ public class QuantityItensActivity extends AppCompatActivity {
         imageCoverFood.setImageResource(item.getImage());
         textFoodName.setText(item.getName());
         textFoodPrice.setText(item.getPrice() + "");
+        textQuantity.setText(itemQuantity);
     }
 
 }
