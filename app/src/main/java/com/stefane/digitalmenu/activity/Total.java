@@ -13,7 +13,7 @@ public class Total {
 
     public Total(Context context, int idCurrentOrder){
         DbHelper db = new DbHelper(context);
-        this.idCurrentOrder = idCurrentOrder; 
+        this.idCurrentOrder = idCurrentOrder;
         write = db.getWritableDatabase();
         read = db.getReadableDatabase();
     }
