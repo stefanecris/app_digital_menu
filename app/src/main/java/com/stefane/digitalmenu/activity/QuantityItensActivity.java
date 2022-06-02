@@ -1,7 +1,10 @@
 package com.stefane.digitalmenu.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stefane.digitalmenu.R;
+import com.stefane.digitalmenu.helper.OrderItemDAO;
 import com.stefane.digitalmenu.model.Item;
 import com.stefane.digitalmenu.model.OrderItem;
 
@@ -69,7 +73,7 @@ public class QuantityItensActivity extends AppCompatActivity {
             public void onClick(View v) {
                 addItemOnTheList();
 
-                Toast.makeText(getApplicationContext(), "quantity: " + orderItems.get(0).getQuantity() + " - id_order: " + orderItems.get(0).getId_order() + " - id_item: " + orderItems.get(0).getId_item(), Toast.LENGTH_SHORT).show();
+                openAlertDialog();
             }
         });
 
@@ -89,6 +93,54 @@ public class QuantityItensActivity extends AppCompatActivity {
     public void addItemOnTheList(){
         orderItem = new OrderItem(idOrder, item.getId(), itemQuantity);
         orderItems.add(orderItem);
+    }
+
+    public void openAlertDialog(){
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle("Alerta");
+        dialog.setMessage("Deseja mais algum outro item?");
+
+        dialog.setCancelable(false);
+
+        dialog.setIcon(android.R.drawable.btn_dialog);
+
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openMainActivity();
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveOrderOnTheDb();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+
+    }
+
+    public void saveOrderOnTheDb(){
+        OrderItemDAO orderItemDAO = new OrderItemDAO(getApplicationContext());
+
+        for(int i = 0; i < orderItems.size(); i++){
+            orderItem.setId_order(orderItems.get(i).getId_order());
+            orderItem.setId_item(orderItems.get(i).getId_item());
+            orderItem.setQuantity(orderItems.get(i).getQuantity());
+
+            orderItemDAO.save(orderItem);
+
+        }
+    }
+
+    public void openMainActivity(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
 }
