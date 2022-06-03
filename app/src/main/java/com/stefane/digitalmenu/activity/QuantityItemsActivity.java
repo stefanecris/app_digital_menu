@@ -6,22 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stefane.digitalmenu.R;
-import com.stefane.digitalmenu.helper.Order;
+import com.stefane.digitalmenu.model.Order;
 import com.stefane.digitalmenu.helper.OrderDAO;
 import com.stefane.digitalmenu.helper.OrderItemDAO;
 import com.stefane.digitalmenu.model.Item;
 import com.stefane.digitalmenu.model.OrderItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuantityItemsActivity extends AppCompatActivity {
 
@@ -74,7 +69,7 @@ public class QuantityItemsActivity extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveOrderItemOnTheDb();
+                saveOrderItemInTheDb();
                 openAlertDialog();
             }
         });
@@ -88,15 +83,28 @@ public class QuantityItemsActivity extends AppCompatActivity {
     public void displaysSelectedItem(){
         imageCoverFood.setImageResource(item.getImage());
         textFoodName.setText(item.getName());
-        textFoodPrice.setText(item.getPrice() + "");
+        textFoodPrice.setText("R$ " + String.format("%.2f", item.getPrice()));
         textQuantity.setText(itemQuantity + "");
+    }
+
+    public void saveOrderItemInTheDb(){
+
+        orderDAO = new OrderDAO(getApplicationContext());
+
+        idOrder = orderDAO.getIdLastOrder();
+
+        OrderItemDAO orderItemDAO = new OrderItemDAO(getApplicationContext());
+        orderItem = new OrderItem(idOrder + 1, item.getId(), itemQuantity);
+
+        orderItemDAO.save(orderItem);
+
     }
 
     public void openAlertDialog(){
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
-        dialog.setTitle("Alerta");
+        dialog.setTitle("Pergunta");
         dialog.setMessage("Deseja mais algum outro item?");
 
         dialog.setCancelable(false);
@@ -123,27 +131,15 @@ public class QuantityItemsActivity extends AppCompatActivity {
 
     }
 
-    public void saveOrderOnTheDb(){
-        order = new Order(idOrder + 1);
-        orderDAO.save(order);
-    }
-
-    public void saveOrderItemOnTheDb(){
-
-        orderDAO = new OrderDAO(getApplicationContext());
-
-        idOrder = orderDAO.getIdLastOrder();
-
-        OrderItemDAO orderItemDAO = new OrderItemDAO(getApplicationContext());
-        orderItem = new OrderItem(idOrder + 1, item.getId(), itemQuantity);
-
-        orderItemDAO.save(orderItem);
-
-    }
-
     public void openMainActivity(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+
+
+    public void saveOrderOnTheDb(){
+        order = new Order(idOrder + 1);
+        orderDAO.save(order);
     }
 
     public void openOrderItemsActivity(){
