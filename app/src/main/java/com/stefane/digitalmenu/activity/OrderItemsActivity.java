@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,14 +51,14 @@ public class OrderItemsActivity extends AppCompatActivity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pedido enviado para a cozinha com sucesso!", Toast.LENGTH_LONG).show();
+                openOrderSentActivity();
             }
         });
 
         buttonNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pedido cancelado", Toast.LENGTH_LONG).show();
+                openOrderCanceledActivity();
             }
         });
 
@@ -94,6 +95,16 @@ public class OrderItemsActivity extends AppCompatActivity {
 
     public void displaysConfirmeMessage(){
         textConfirmeMessage.setText("Confirma o pedido no valor de R$ " + String.format("%.2f", totalPrice) + "?");
+    }
+
+    public void openOrderSentActivity(){
+        Intent intent = new Intent(getApplicationContext(), OrderSentActivity.class);
+        startActivity(intent);
+    }
+
+    public void openOrderCanceledActivity(){
+        Intent intent = new Intent(getApplicationContext(), OrderCanceledActivity.class);
+        startActivity(intent);
     }
 
 }
