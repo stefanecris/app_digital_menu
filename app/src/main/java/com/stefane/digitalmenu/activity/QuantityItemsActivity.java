@@ -104,12 +104,12 @@ public class QuantityItemsActivity extends AppCompatActivity {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
-        dialog.setTitle("Pergunta");
+        dialog.setTitle("Pedido");
         dialog.setMessage("Deseja mais algum outro item?");
 
         dialog.setCancelable(false);
 
-        dialog.setIcon(android.R.drawable.btn_dialog);
+        dialog.setIcon(R.drawable.ic_add_shopping_cart);
 
         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
