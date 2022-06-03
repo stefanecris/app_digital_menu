@@ -32,7 +32,7 @@ public class QuantityItemsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quantity_itens);
+        setContentView(R.layout.activity_quantity_items);
 
         imageCoverFood = findViewById(R.id.imageCoverFood);
         textFoodName = findViewById(R.id.textFoodName);
