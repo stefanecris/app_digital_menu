@@ -4,13 +4,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_chefe"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activity.OrderItemsActivity"></activity>
-        <activity android:name=".activity.QuantityItemsActivity" />
+        <activity android:name=".activity.OrderCanceledActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.OrderSentActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.OrderItemsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.QuantityItemsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
