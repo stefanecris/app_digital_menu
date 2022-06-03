@@ -17,6 +17,7 @@ import com.stefane.digitalmenu.adapter.Adapter;
 import com.stefane.digitalmenu.helper.OrderItemDAO;
 import com.stefane.digitalmenu.model.Item;
 import com.stefane.digitalmenu.model.OrderItem;
+import com.stefane.digitalmenu.model.Total;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ public class OrderItemsActivity extends AppCompatActivity {
     private RecyclerView recyclerOrderItems;
     private TextView textConfirmeMessage;
     private Button buttonYes, buttonNo;
-    private List<OrderItem> order = new ArrayList<>();
     private List<Item> itemsOrder = new ArrayList<>();
     private int idCurrentOrder;
     private float totalPrice;
@@ -41,16 +41,16 @@ public class OrderItemsActivity extends AppCompatActivity {
         buttonYes = findViewById(R.id.buttonYes);
         buttonNo = findViewById(R.id.buttonNo);
 
-        idCurrentOrder = (int) getIntent().getSerializableExtra("idCurrentOrder");
+        getIdCurrentOrder();
 
         getTotal();
 
-        textConfirmeMessage.setText("Confirma o pedido no valor de R$ " + totalPrice + "?");
+        displaysConfirmeMessage();
 
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Pedido enviado para a cozinha com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Pedido enviado para a cozinha com sucesso!", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -83,12 +83,17 @@ public class OrderItemsActivity extends AppCompatActivity {
 
     }
 
+    public void getIdCurrentOrder(){
+        idCurrentOrder = (int) getIntent().getSerializableExtra("idCurrentOrder");
+    }
+
     public void getTotal(){
         Total total = new Total(getApplicationContext(), idCurrentOrder);
-
         totalPrice = total.calcTotal();
+    }
 
-        Toast.makeText(getApplicationContext(), "Total: " + totalPrice, Toast.LENGTH_LONG).show();
+    public void displaysConfirmeMessage(){
+        textConfirmeMessage.setText("Confirma o pedido no valor de R$ " + String.format("%.2f", totalPrice) + "?");
     }
 
 }
